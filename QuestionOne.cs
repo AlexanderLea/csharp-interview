@@ -29,12 +29,19 @@ namespace Example.Interview.Question
             _positionService = positionService;
             _container = container;
         }
-
-        public async Task<PersonModel> GetPerson(Guid id)
+        
+        /// <summary>
+        /// Load a person that has a name matching given personName
+        /// </summary>
+        /// <param name="personName">FirstName or LastName of the Person to find</param>
+        /// <returns>PersonModel matching the given personName</returns>
+        public async Task<PersonModel> GetPerson(string personName)
         {
             var personRepository = _container.Resolve<IPersonRepository>();
 
-            var configurationItems = _configurationRepository.Value.GetConfigurationForPerson(id);
+            var personEntity = await personRepository.Find(personName);
+
+            var configurationItems = _configurationRepository.Value.GetConfigurationForPerson(personEntity.Id);
 
             var configuration = configurationItems.First();
 
@@ -43,26 +50,22 @@ namespace Example.Interview.Question
                 return null;
             }
 
-            var personEntity = personRepository.Get(id);
-
             var personModel = new PersonModel
             {
                 FirstName = personEntity.FirstName,
-                LastName = personEntity.LastName,
-                LastEditedBy = GetPerson(personEntity.LastEditorId)
+                LastName = personEntity.LastName
             };
 
-            return personModel;
+            return personModel;           
         }
-        
-        public async Task<PersonModel> GetLastRecordEditor(Guid id)
+    
+        public async Task<PersonModel> GetLastRecordEditor(string personName)
         {
             var personRepository = _container.Resolve<IPersonRepository>();
             
-            var editorId = personRepository.GetRecordEditorId(id);
+            var editorName =  await personRepository.FindEditorName(personName);
 
-            return GetPerson(editorId);
+            return GetPerson(editorName);
         }
-        
     }
 }

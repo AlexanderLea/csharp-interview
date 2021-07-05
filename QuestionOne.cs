@@ -53,5 +53,33 @@ namespace Example.Interview.Question
 
             return personModel;
         }
+
+        /// <summary>
+        /// Load a person that has a name matching given personName
+        /// </summary>
+        /// <param name="personName">FirstName or LastName of the Person to find</param>
+        /// <returns>PersonModel matching the given personName</returns>
+        public async Task<PersonModel> GetPerson(string personName)
+        {
+            var personRepository = _container.Resolve<IPersonRepository>();
+
+            var personEntity = await personRepository.Find(personName);
+
+            var configurationItems = _configurationRepository.Value.GetConfigurationForPerson(personEntity.Id);
+
+            var configuration = configurationItems.First();
+
+            if (!configuration.IsPersonAccessible)
+            {
+                return null;
+            }
+
+            var personModel = new PersonModel
+            {
+                FirstName = personEntity.FirstName,
+                LastName = personEntity.LastName
+            };
+
+            return personModel;           
     }
 }

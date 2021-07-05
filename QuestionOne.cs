@@ -48,10 +48,21 @@ namespace Example.Interview.Question
             var personModel = new PersonModel
             {
                 FirstName = personEntity.FirstName,
-                LastName = personEntity.LastName
+                LastName = personEntity.LastName,
+                LastEditedBy = GetPerson(personEntity.LastEditorId)
             };
 
             return personModel;
         }
+        
+        public async Task<PersonModel> GetLastRecordEditor(Guid id)
+        {
+            var personRepository = _container.Resolve<IPersonRepository>();
+            
+            var editorId = personRepository.GetRecordEditorId(id);
+
+            return GetPerson(editorId);
+        }
+        
     }
 }

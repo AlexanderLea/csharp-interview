@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Example.Interview.Question.Placeholders;
 using Unity;
 
-namespace Example.Interview.Question
+namespace csharp_interview
 {
     /// <summary>
     ///     Person service
@@ -32,7 +32,7 @@ namespace Example.Interview.Question
 
         public async Task<PersonModel> GetPerson(Guid id)
         {
-            var personRepository = _container.Resolve<IPersonRepository>();
+            IPersonRepository personRepository = _container.Resolve<IPersonRepository>();
 
             var configurationItems = _configurationRepository.Value.GetConfigurationForPerson(id);
 

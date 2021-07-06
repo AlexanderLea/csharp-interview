@@ -7,6 +7,7 @@ namespace Example.Interview.Question.Placeholders
     {
         public IEnumerable<CompanyEntity> FindCompaniesWithMatchingSynonims(string synonim);
         public IEnumerable<PersonEntity> FindEmployeesOfCompany(Guid companyId);
-
+        public CompanyEntity Find(Guid id);
+        public Guid Save(CompanyEntity company);
     }
 }

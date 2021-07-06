@@ -10,14 +10,14 @@ namespace Example.Interview.Question
     /// <summary>
     ///     Person service
     /// </summary>
-    public class QuestionOne : BaseService, IPersonService
+    public class Question1 : BaseService, IPersonService
     {
         private readonly IAuthenticatedUser _authenticatedUser;
         private readonly Lazy<IConfigurationRepository> _configurationRepository;
         private readonly Lazy<IPositionService> _positionService;
         private readonly IUnityContainer _container;
 
-        public QuestionOne(
+        public Question1(
             IAuthenticatedUser authenticatedUser,
             Lazy<IConfigurationRepository> configurationRepository,
             Lazy<IPositionService> positionService,

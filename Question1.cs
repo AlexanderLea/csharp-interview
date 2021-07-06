@@ -29,7 +29,31 @@ namespace Example.Interview.Question
             _positionService = positionService;
             _container = container;
         }
-        
+
+        public async Task<PersonModel> GetPerson(Guid id)
+        {
+            var personRepository = _container.Resolve<IPersonRepository>();
+
+            var configurationItems = _configurationRepository.Value.GetConfigurationForPerson(id);
+
+            var configuration = configurationItems.First();
+
+            if (!configuration.IsPersonAccessible)
+            {
+                return null;
+            }
+
+            var personEntity = personRepository.Get(id);
+
+            var personModel = new PersonModel
+            {
+                FirstName = personEntity.FirstName,
+                LastName = personEntity.LastName
+            };
+
+            return personModel;
+        }
+
         /// <summary>
         /// Load a person that has a name matching given personName
         /// </summary>
@@ -56,16 +80,16 @@ namespace Example.Interview.Question
                 LastName = personEntity.LastName
             };
 
-            return personModel;           
+            return personModel;
         }
-    
+
         public async Task<PersonModel> GetLastRecordEditor(string personName)
         {
             var personRepository = _container.Resolve<IPersonRepository>();
-            
-            var editorName =  await personRepository.FindEditorName(personName);
 
-            return GetPerson(editorName);
+            var editorName = await personRepository.FindEditorName(personName);
+
+            return await GetPerson(editorName);
         }
     }
 }

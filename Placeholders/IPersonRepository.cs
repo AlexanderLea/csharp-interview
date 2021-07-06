@@ -7,5 +7,6 @@ namespace Example.Interview.Question.Placeholders
     {
         PersonEntity Get(Guid id);
         Task<PersonEntity> Find(string personName);
+        Task<string> FindEditorName(string personName);
     }
 }

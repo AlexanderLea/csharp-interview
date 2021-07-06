@@ -18,12 +18,7 @@ namespace csharp_interview
         {
             SqlConnection connection = new SqlConnection(connectionString);
             
-            var queryString = "SELECT ItemId, FirstName, LastName "
-                + "FROM People "
-                + $"WHERE JobTitle = '{jobTitle}'"
-                + "ORDER BY Age DESC;";
-
-            var command = new SqlCommand(queryString, connection);            
+            var command = new SqlCommand($"SELECT ItemId, FirstName, LastName FROM People WHERE JobTitle = '{jobTitle}' ORDER BY Age DESC;", connection);        
             connection.Open();
 
             var result = new DataTable();
